@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>수강신청</title>
+  </head>
+  <body>
+    <div>
+      <button id="btn1">국어 수업 요일선택 ></button>
+      <span id="korWeek">요일을 선택하세요!</span>
+    </div>
+    <div style="margin-top: 1rem">
+      <button onclick="setWeek('math')">수학 수업 요일선택 ></button>
+      <span id="mathWeek">요일을 선택하세요!</span>
+    </div>
+    <script>
+      // 요일 변경
+      const WEEKS = '일월화수목금토';
+      const getNextWeek = () => {
+        let widx = -1;
+        return () => {
+          widx += 1;
+          if (widx >= WEEKS.length) widx = 0;
+          return `${WEEKS[widx]}`;
+        };
+      };
+
+      // 각각 클로저 생성
+      const korNextWeek = getNextWeek();
+      const mathNextWeek = getNextWeek();
+
+      const setWeek = (sub) => {
+        const span = document.getElementById(`${sub}Week`);
+        span.innerText = sub === 'kor' ? korNextWeek : mathNextWeek;
+      };
+
+      document.addEventListener('DOMContentLoaded', () => {
+        // 버튼, span 요소 선택
+        const btn1 = document.getElementById('btn1');
+        const btn2 = document.getElementById('btn2');
+        const korWeek = document.getElementById('korWeek');
+        const mathWeek = document.getElementById('mathWeek');
+
+        // 버튼에 이벤트 리스너 추가
+        btn1.addEventListener('click', () => {
+          korWeek.innerText = korNextWeek;
+        });
+
+        setWeek.addEventListener('click', () => {
+          setWeek('kor');
+        });
+      });
+    </script>
+  </body>
+</html>
