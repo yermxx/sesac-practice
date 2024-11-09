@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>수강 신청</title>
+  </head>
+  <body>
+    <div>
+      <button id="korBtn">국어 수업 요일선택 ></button>
+      <span id="korWeek">요일을 선택하세요!</span>
+    </div>
+    <div style="margin-top: 1rem">
+      <button id="mathBtn">수학 수업 요일선택 ></button>
+      <span id="mathWeek">요일을 선택하세요!</span>
+    </div>
+    <div style="margin-top: 1rem">
+      <input id="inputBox" type="text" oninput="search()" />
+    </div>
+    <script>
+      // 요일 변경
+      const WEEKS = '일월화수목금토';
+      const getNextWeek = () => {
+        let widx = -1;
+        return () => {
+          widx += 1;
+          if (widx >= WEEKS.length) widx = 0;
+          return `${WEEKS[widx]}`;
+        };
+      };
+
+      // 각각 클로저 생성
+      const korNextWeek = getNextWeek();
+      const mathNextWeek = getNextWeek();
+
+      // 과목에 따른 요일 정하기
+      const setWeek = (sub) => {
+        const span = document.getElementById(`${sub}Week`);
+        span.innerText = sub === 'kor' ? korNextWeek() : mathNextWeek();
+      };
+
+      // TODO: 국어 수업 요일 선택 버튼에 0.5초 debounce 적용하기
+      const debounce = (cb, delay) => {
+        let timer;
+        return (...args) => {
+          if (timer) clearTimeout(timer);
+          timer = setTimeout(cb, delay, ...args);
+        };
+      };
+      const updateKor = debounce(() => setWeek('kor'), 500);
+
+      // TODO: 수학 수업 요일 선택 버튼에 0.5초 throttle 적용하기
+      const throttle = (cb, delay) => {
+        let timer;
+        return (...args) => {
+          if (timer) return;
+          timer = setTimeout(() => {
+            cb(...args);
+            timer = null;
+          }, delay);
+        };
+      };
+      const updateMath = throttle(() => setWeek('math'), 500);
+
+      // TODO: input 검색창에 debounce 함수 설정
+      const search = debounce(() => {
+        const inputBox = document.getElementById('inputBox').value;
+        const date = new Date().toISOString();
+        console.log(`${date} search>> ${inputBox}`);
+      }, 500);
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const korWeek = document.getElementById('korWeek');
+        const mathWeek = document.getElementById('mathWeek');
+        const korBtn = document.getElementById('korBtn');
+        const mathBtn = document.getElementById('mathBtn');
+
+        korBtn.addEventListener('click', function () {
+          updateKor();
+        });
+
+        mathBtn.addEventListener('click', function () {
+          updateMath();
+        });
+      });
+    </script>
+  </body>
+</html>
