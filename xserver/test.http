@@ -1,0 +1,14 @@
+@host=http://localhost:7007
+
+### get - ttt
+{{host}}/ttt/1023?name=짱구
+
+### users - post
+POST {{host}}/users
+Content-Type: application/json
+
+{
+  "email": "abc123@gmail.com",
+  "name": "유리"
+}
+
