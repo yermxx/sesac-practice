@@ -1,4 +1,6 @@
 import { Session } from '../App';
+import Profile from './Profile';
+import Login from './Login';
 
 type Props = {
   session: Session;
@@ -8,8 +10,12 @@ type Props = {
 export default function My({ session, logout }: Props) {
   return (
     <>
-      <h3>{session.loginUser?.name} Logined</h3>
-      <button onClick={logout}>Log-out</button>
+      {session.loginUser ? (
+        <Profile session={session} logout={logout} />
+      ) : (
+        <Login />
+      )}
+
       <ul>
         {session.cart.map(({ id, name, price }) => (
           <li key={id}>
