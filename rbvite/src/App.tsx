@@ -25,8 +25,6 @@ function App() {
   const plusCount = () => setCount(count + 1);
   const minusCount = () => setCount(count - 1);
 
-  console.log('App');
-
   return (
     <>
       <Hello
@@ -37,7 +35,7 @@ function App() {
         minusCount={minusCount}
       />
       <hr />
-      <My session={session} />
+      <My session={session} logout={logout} />
       <div className='card'>
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
