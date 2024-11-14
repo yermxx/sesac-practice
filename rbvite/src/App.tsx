@@ -21,6 +21,8 @@ function App() {
   const [session, setSession] = useState<Session>(SampleSession);
 
   const logout = () => setSession({ ...session, loginUser: null });
+  const login = (id: number, name: string) =>
+    setSession({ ...session, loginUser: { id, name } });
 
   const plusCount = () => setCount(count + 1);
   const minusCount = () => setCount(count - 1);
@@ -35,7 +37,8 @@ function App() {
         minusCount={minusCount}
       />
       <hr />
-      <My session={session} logout={logout} />
+      {/* <pre>{JSON.stringify(session.loginUser)}</pre> */}
+      <My session={session} logout={logout} login={login} />
       <div className='card'>
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}

@@ -5,15 +5,17 @@ import Login from './Login';
 type Props = {
   session: Session;
   logout: () => void;
+  // login: (id: number, name: string) => void;
+  login: () => void;
 };
 
-export default function My({ session, logout }: Props) {
+export default function My({ session, logout, login }: Props) {
   return (
     <>
-      {session.loginUser ? (
+      {session.loginUser?.id ? (
         <Profile session={session} logout={logout} />
       ) : (
-        <Login />
+        <Login login={login} />
       )}
 
       <ul>
