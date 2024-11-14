@@ -7,7 +7,7 @@ type TitleProps = {
 };
 
 const Title = ({ text, name, age }: TitleProps) => (
-  <h1>
+  <h1 className='text-2xl font-bold leading-normal mb-2'>
     {text} {name} ({age})
   </h1>
 );
@@ -30,9 +30,10 @@ export default function Hello({
   const [myState, setState] = useState(0);
 
   return (
-    <>
+    <div className='mb-7 text-center'>
       <Title text='Hello,' name={name} age={age} />
       <button
+        className='btn text-blue-500'
         onClick={() => {
           setState(myState + 1);
           plusCount();
@@ -40,8 +41,10 @@ export default function Hello({
       >
         Plus
       </button>
-      <strong>{count}</strong>
-      <button onClick={() => minusCount()}>Minus</button>
-    </>
+      <strong className='mx-5'>{count}</strong>
+      <button className='btn text-red-500' onClick={() => minusCount()}>
+        Minus
+      </button>
+    </div>
   );
 }

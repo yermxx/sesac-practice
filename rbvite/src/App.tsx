@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import './App.css';
 import Hello from './components/Hello';
 import My from './components/My';
 
@@ -28,7 +27,7 @@ function App() {
   const minusCount = () => setCount(count - 1);
 
   return (
-    <>
+    <div className='grid place-items-center m-20'>
       <Hello
         name='Hani!'
         age={20}
@@ -40,11 +39,14 @@ function App() {
       {/* <pre>{JSON.stringify(session.loginUser)}</pre> */}
       <My session={session} logout={logout} login={login} />
       <div className='card'>
-        <button onClick={() => setCount((count) => count + 1)}>
+        <button
+          className='btn btn-primary btn-outline-success'
+          onClick={() => setCount((count) => count + 1)}
+        >
           count is {count}
         </button>
       </div>
-    </>
+    </div>
   );
 }
 

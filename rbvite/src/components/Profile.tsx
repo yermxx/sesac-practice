@@ -8,8 +8,10 @@ type Props = {
 export default function Profile({ session, logout }: Props) {
   return (
     <>
-      <h3>{session.loginUser?.name} Logined</h3>
-      <button onClick={logout}>Log-out</button>
+      <h3 className='mb-2 text-blue-800'>{session.loginUser?.name} Logined</h3>
+      <button className='btn btn-success mb-6' onClick={logout}>
+        Log-out
+      </button>
     </>
   );
 }
