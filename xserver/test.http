@@ -3,12 +3,18 @@
 ### get - ttt
 {{host}}/ttt/1023?name=짱구
 
-### users - post
+### get - users
+GET {{host}}/users
+
+### post - users
 POST {{host}}/users
 Content-Type: application/json
 
 {
-  "email": "abc123@gmail.com",
-  "name": "유리"
+  "email": "csisgood@gmail.com",
+  "name": "철수"
 }
+
+### delete - user
+DELETE {{host}}/users/24
 
