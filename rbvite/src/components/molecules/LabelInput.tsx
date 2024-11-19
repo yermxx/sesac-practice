@@ -1,10 +1,11 @@
 import { ChangeEvent, useId } from 'react';
+import Input from '../atoms/Input';
 
 type Props = {
   label: string;
   type?: string;
   placeholder?: string;
-  classNames?: string;
+  className?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
@@ -12,21 +13,20 @@ export default function LabelInput({
   label,
   type = 'text',
   placeholder = `${label} ...`,
-  classNames = '',
+  className = '',
   onChange = () => {},
 }: Props) {
   const id = useId();
 
   return (
-    <div className='grid place-items-center mb-6'>
+    <div className='mb-6 grid place-items-center'>
       <label htmlFor={id} className='w-32'>
         {label}
       </label>
-      <input
+      <Input
         id={id}
         type={type}
         placeholder={placeholder}
-        className={`inp ${classNames}`}
         onChange={onChange}
         autoComplete='off'
       />

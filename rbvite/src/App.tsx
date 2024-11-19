@@ -11,33 +11,58 @@ const SampleSession = {
   ],
 };
 
-type LoginUser = typeof SampleSession.loginUser;
-type CartItem = { id: number; name: string; price: number };
-export type Session = { loginUser: LoginUser | null; cart: CartItem[] };
+// type LoginUser = typeof SampleSession.loginUser;
+export type LoginUser = {
+  id: number;
+  name: string;
+};
+
+type CartItem = {
+  id: number;
+  name: string;
+  price: number;
+};
+
+export type Session = {
+  loginUser: LoginUser | null;
+  cart: CartItem[];
+};
 
 function App() {
   const [count, setCount] = useState(0);
   const [session, setSession] = useState<Session>(SampleSession);
 
   const logout = () => setSession({ ...session, loginUser: null });
-  const login = (id: number, name: string) =>
+
+  const login = ({ id, name }: LoginUser) =>
     setSession({ ...session, loginUser: { id, name } });
+
+  const removeCartItem = (itemId: number) =>
+    setSession({
+      ...session,
+      cart: session.cart.filter(({ id }) => id !== itemId),
+    });
 
   const plusCount = () => setCount(count + 1);
   const minusCount = () => setCount(count - 1);
 
   return (
-    <div className='grid place-items-center m-20'>
+    <div className='m-20 grid place-items-center'>
       <Hello
-        name='Hani!'
-        age={20}
+        name='Rimi!'
+        age={29}
         count={count}
         plusCount={plusCount}
         minusCount={minusCount}
       />
       <hr />
       {/* <pre>{JSON.stringify(session.loginUser)}</pre> */}
-      <My session={session} logout={logout} login={login} />
+      <My
+        session={session}
+        logout={logout}
+        removeCartItem={removeCartItem}
+        login={login}
+      />
       <div className='card'>
         <button
           className='btn btn-primary btn-outline-success'
