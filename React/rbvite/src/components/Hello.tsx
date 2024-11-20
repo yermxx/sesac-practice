@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ForwardedRef, forwardRef, useImperativeHandle, useState } from 'react';
 
 type TitleProps = {
   text: string;
@@ -20,14 +20,20 @@ type Props = {
   minusCount: () => void;
 };
 
-export default function Hello({
-  name,
-  age,
-  count,
-  plusCount,
-  minusCount,
-}: Props) {
-  const [myState, setState] = useState(0);
+export type MyHandler = {
+  jumpHelloState: () => void;
+};
+
+function Hello(
+  { name, age, count, plusCount, minusCount }: Props,
+  ref: ForwardedRef<MyHandler>
+) {
+  const [myState, setMyState] = useState(0);
+
+  const handler = {
+    jumpHelloState: () => setMyState((pre) => pre * 10),
+  };
+  useImperativeHandle(ref, () => handler);
 
   return (
     <div className='mb-7 text-center'>
@@ -36,7 +42,7 @@ export default function Hello({
         <button
           className='btn text-blue-500'
           onClick={() => {
-            setState(myState + 1);
+            setMyState(myState + 1);
             plusCount();
           }}
         >
@@ -50,3 +56,7 @@ export default function Hello({
     </div>
   );
 }
+
+const ImpHello = forwardRef(Hello);
+
+export default ImpHello;

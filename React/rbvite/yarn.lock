@@ -2194,6 +2194,11 @@ react-dom@^18.3.1:
     loose-envify "^1.1.0"
     scheduler "^0.23.2"
 
+react-icons@^5.3.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-5.3.0.tgz#ccad07a30aebd40a89f8cfa7d82e466019203f1c"
+  integrity sha512-DnUk8aFbTyQPSkCfF8dbX6kQjXA9DktMeJqfjrg6cK9vwQVMxmcA3BfP4QoiztVmEHtwlTgLFsPuH2NskKT6eg==
+
 react-is@^16.13.1:
   version "16.13.1"
   resolved "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
@@ -2205,6 +2210,11 @@ react@^18.3.1:
   integrity sha512-wS+hAgJShR0KhEvPJArfuPVN1+Hz1t0Y6n5jLrGQbkb4urgPE/0Rve+1kMB1v/oWgHgm4WIcV+i7F2pTVj+2iQ==
   dependencies:
     loose-envify "^1.1.0"
+
+reacticon@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/reacticon/-/reacticon-0.0.1.tgz#46a6aa4e7aeda3c2155fc636d9c99d708e36ff3e"
+  integrity sha512-9/ZLJXUFf24WHyoXlh2VijWtAm2dBu3vyU2V7vXst9IQma1a4p12v8bNn8QbQTkZWVu1nQ1RH0GzkLkDKId7IQ==
 
 read-cache@^1.0.0:
   version "1.0.0"

@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import Hello from './components/Hello';
+import { useRef, useState } from 'react';
+import Hello, { MyHandler } from './components/Hello';
 import My from './components/My';
 
 const SampleSession = {
@@ -32,6 +32,8 @@ function App() {
   const [count, setCount] = useState(0);
   const [session, setSession] = useState<Session>(SampleSession);
 
+  const myHandleRef = useRef<MyHandler>(null);
+
   const logout = () => setSession({ ...session, loginUser: null });
 
   const login = ({ id, name }: LoginUser) =>
@@ -54,6 +56,7 @@ function App() {
         count={count}
         plusCount={plusCount}
         minusCount={minusCount}
+        ref={myHandleRef}
       />
       <hr />
       {/* <pre>{JSON.stringify(session.loginUser)}</pre> */}
@@ -66,7 +69,10 @@ function App() {
       <div className='card'>
         <button
           className='btn btn-primary btn-outline-success'
-          onClick={() => setCount((count) => count + 1)}
+          onClick={() => {
+            setCount((count) => count + 1);
+            myHandleRef.current?.jumpHelloState();
+          }}
         >
           count is {count}
         </button>

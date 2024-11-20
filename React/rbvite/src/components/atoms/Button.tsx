@@ -17,7 +17,7 @@ export default function Button({
     <button
       type={type}
       onClick={onClick}
-      className={`btn ${className} flex items-center justify-center`}
+      className={`btn ${className} mb-3 flex items-center justify-center normal-case`}
     >
       {children}
     </button>

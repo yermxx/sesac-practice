@@ -3,6 +3,7 @@ import Profile from './Profile';
 import Login from './Login';
 import Button from './atoms/Button';
 import { FaTrashCan } from 'react-icons/fa6';
+import { useRef } from 'react';
 
 type Props = {
   session: Session;
@@ -13,11 +14,17 @@ type Props = {
 
 export default function My({ session, logout, login, removeCartItem }: Props) {
   // const { id, name } = session.loginUser || { id: 0, name: '' };
+  const logoutButtonRef = useRef<HTMLButtonElement>(null);
 
   return (
     <>
       {session.loginUser?.id ? (
-        <Profile session={session} logout={logout} />
+        <>
+          <Profile session={session} logout={logout} ref={logoutButtonRef} />
+          <Button onClick={() => logoutButtonRef.current?.click()}>
+            MySignOut
+          </Button>
+        </>
       ) : (
         <Login login={login} />
       )}
