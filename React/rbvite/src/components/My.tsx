@@ -6,6 +6,15 @@ import { FaPlus, FaTrashCan } from 'react-icons/fa6';
 import { ForwardedRef, forwardRef, useRef, useState } from 'react';
 import { RiEmotionSadLine } from 'react-icons/ri';
 import CartItemEditor from './CartItemEditor';
+import VideoPlayer, { VideoPlayerHandler } from './VideoPlayer';
+import {
+  TiMediaPauseOutline,
+  TiMediaPlayOutline,
+  TiMediaStop,
+  TiVolumeDown,
+  TiVolumeMute,
+  TiVolumeUp,
+} from 'react-icons/ti';
 
 type Props = {
   session: Session;
@@ -26,6 +35,7 @@ const My = forwardRef(
     // const { id, name } = session.loginUser || { id: 0, name: '' };
 
     const logoutButtonRef = useRef<HTMLButtonElement>(null);
+    const videoPlayerRef = useRef<VideoPlayerHandler>(null); // useImperativeHandle를 사용할 때는 ref의 타입을 주입해야 한다 !!
 
     const toggleEditing = () => setIsEditing((pre) => !pre);
 
@@ -49,7 +59,6 @@ const My = forwardRef(
         ) : (
           <Login login={login} ref={ref} />
         )}
-
         <ul className='mb-6 w-auto space-y-3 border p-4'>
           {session.cart?.length ? (
             session.cart.map(({ id, name, price }) => (
@@ -96,6 +105,38 @@ const My = forwardRef(
             )}
           </li>
         </ul>
+
+        <div className='mx-auto w-96 border p-5'>
+          <VideoPlayer
+            url='http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4'
+            ref={videoPlayerRef}
+          />
+
+          <div className='flex w-full justify-center'>
+            <div className='mx-8 flex gap-3'>
+              <Button onClick={() => videoPlayerRef.current?.start()}>
+                <TiMediaPlayOutline />
+              </Button>
+              <Button onClick={() => videoPlayerRef.current?.pause()}>
+                <TiMediaPauseOutline />
+              </Button>
+              <Button onClick={() => videoPlayerRef.current?.stop()}>
+                <TiMediaStop />
+              </Button>
+            </div>
+            <div className='mx-8 flex gap-2'>
+              <Button onClick={() => videoPlayerRef.current?.mute()}>
+                <TiVolumeMute />
+              </Button>
+              <Button onClick={() => videoPlayerRef.current?.volumeUp(-0.1)}>
+                <TiVolumeDown />
+              </Button>
+              <Button onClick={() => videoPlayerRef.current?.volumeUp(0.1)}>
+                <TiVolumeUp />
+              </Button>
+            </div>
+          </div>
+        </div>
       </>
     );
   }

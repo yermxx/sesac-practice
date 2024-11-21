@@ -91,6 +91,17 @@ function App() {
         minusCount={minusCount}
         ref={myHandleRef}
       />
+      <div className='card mb-6'>
+        <button
+          className='btn btn-primary btn-outline-success'
+          onClick={() => {
+            setCount((count) => count + 1);
+            myHandleRef.current?.jumpHelloState();
+          }}
+        >
+          count is {count}
+        </button>
+      </div>
       <hr />
       {/* <pre>{JSON.stringify(session.loginUser)}</pre> */}
       <My
@@ -102,17 +113,6 @@ function App() {
         removeCartItem={removeCartItem}
         ref={loginRef}
       />
-      <div className='card'>
-        <button
-          className='btn btn-primary btn-outline-success'
-          onClick={() => {
-            setCount((count) => count + 1);
-            myHandleRef.current?.jumpHelloState();
-          }}
-        >
-          count is {count}
-        </button>
-      </div>
     </div>
   );
 }
