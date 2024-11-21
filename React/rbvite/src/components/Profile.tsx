@@ -1,5 +1,6 @@
 import { ForwardedRef, forwardRef } from 'react';
 import { Session } from '../App';
+import Button from './atoms/Button';
 
 type Props = {
   session: Session;
@@ -9,13 +10,13 @@ type Props = {
 const Profile = forwardRef(
   ({ session, logout }: Props, ref: ForwardedRef<HTMLButtonElement>) => {
     return (
-      <div className='mb-2 border px-5 py-2'>
-        <h3 className='mb-2 text-blue-800'>
+      <div className='mb-2 px-5 py-2'>
+        <h3 className='mb-2 text-center text-blue-800'>
           {session.loginUser?.name} Logined
         </h3>
-        <button onClick={logout} ref={ref} className='btn btn-success mb-6'>
-          Log-out
-        </button>
+        <Button onClick={logout} ref={ref} className='btn btn-success mb-6'>
+          HongSignOut
+        </Button>
       </div>
     );
   }

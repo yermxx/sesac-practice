@@ -29,6 +29,7 @@ export default function LabelInput({
         placeholder={placeholder}
         onChange={onChange}
         autoComplete='off'
+        className={className}
       />
     </div>
   );

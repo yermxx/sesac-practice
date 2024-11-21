@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { forwardRef, ReactNode } from 'react';
 
 type Props = {
   type?: 'submit' | 'reset' | 'button' | undefined;
@@ -7,19 +7,21 @@ type Props = {
   children: ReactNode;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-export default function Button({
-  type = 'button',
-  children,
-  onClick = () => {},
-  className = '',
-}: Props) {
-  return (
-    <button
-      type={type}
-      onClick={onClick}
-      className={`btn flex items-center justify-center normal-case ${className}`}
-    >
-      {children}
-    </button>
-  );
-}
+const Button = forwardRef<HTMLButtonElement, Props>(
+  ({ type = 'button', className = '', children, ...props }, ref) => {
+    return (
+      <button
+        type={type}
+        ref={ref}
+        className={`btn flex items-center justify-center normal-case ${className}`}
+        {...props}
+      >
+        {children}
+      </button>
+    );
+  }
+);
+
+Button.displayName = 'Button';
+
+export default Button;

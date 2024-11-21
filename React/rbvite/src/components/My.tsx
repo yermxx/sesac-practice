@@ -2,9 +2,10 @@ import { LoginUser, Session } from '../App';
 import Profile from './Profile';
 import Login from './Login';
 import Button from './atoms/Button';
-import { FaTrashCan } from 'react-icons/fa6';
+import { FaPlus, FaTrashCan } from 'react-icons/fa6';
 import { FormEvent, useRef, useState } from 'react';
 import Input from './atoms/Input';
+import { TbShoppingCartOff, TbShoppingCartPlus } from 'react-icons/tb';
 
 type Props = {
   session: Session;
@@ -54,7 +55,7 @@ export default function My({
   return (
     <>
       {session.loginUser?.id ? (
-        <>
+        <div className='flex'>
           <Profile session={session} logout={logout} ref={logoutButtonRef} />
           <Button
             onClick={() => logoutButtonRef.current?.click()}
@@ -62,7 +63,7 @@ export default function My({
           >
             MySignOut
           </Button>
-        </>
+        </div>
       ) : (
         <Login login={login} />
       )}
@@ -97,16 +98,16 @@ export default function My({
               />
               <Input ref={priceRef} type='number' placeholder='item price...' />
               <Button type='reset' onClick={toggleEditing}>
-                Cancel
+                <TbShoppingCartOff />
               </Button>
               <Button type='submit' className='btn-primary'>
-                Save
+                <TbShoppingCartPlus />
               </Button>
             </form>
           ) : (
             // onClick={() => setIsEditing(true)}을 변수로 더 깔끔하게 처리
             <Button onClick={toggleEditing} className='mx-auto'>
-              +Add item
+              <FaPlus /> Add Item
             </Button>
           )}
         </li>
