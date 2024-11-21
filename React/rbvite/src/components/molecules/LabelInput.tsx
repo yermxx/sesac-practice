@@ -1,21 +1,34 @@
-import { ChangeEvent, useId } from 'react';
+import {
+  ChangeEvent,
+  ForwardedRef,
+  forwardRef,
+  InputHTMLAttributes,
+  useId,
+} from 'react';
 import Input from '../atoms/Input';
 
 type Props = {
   label: string;
   type?: string;
   placeholder?: string;
-  className?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  // ref?: RefObject<HTMLInputElement> | null;
+  classNames?: string;
+  inputAttrs?: InputHTMLAttributes<HTMLInputElement>;
 };
 
-export default function LabelInput({
-  label,
-  type = 'text',
-  placeholder = `${label} ...`,
-  className = '',
-  onChange = () => {},
-}: Props) {
+function LabelInput(
+  {
+    label,
+    type = 'text',
+    placeholder = `${label}...`,
+    onChange = () => {},
+    // ref = null,
+    classNames = '',
+    ...inputAttrs
+  }: Props,
+  ref: ForwardedRef<HTMLInputElement>
+) {
   const id = useId();
 
   return (
@@ -27,10 +40,15 @@ export default function LabelInput({
         id={id}
         type={type}
         placeholder={placeholder}
+        className={`inp ${classNames}`}
         onChange={onChange}
-        autoComplete='off'
-        className={className}
+        ref={ref}
+        {...inputAttrs}
       />
     </div>
   );
 }
+
+const LabelInputRef = forwardRef(LabelInput);
+
+export default LabelInputRef;

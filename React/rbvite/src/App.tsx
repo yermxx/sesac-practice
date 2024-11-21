@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
-import Hello, { MyHandler } from './components/Hello';
+import Hello, { type MyHandler } from './components/Hello';
 import My from './components/My';
+import { type LoginHandler } from './components/Login';
 
 const SampleSession = {
   loginUser: { id: 1, name: 'Hong' },
@@ -33,11 +34,21 @@ function App() {
   const [session, setSession] = useState<Session>(SampleSession);
 
   const myHandleRef = useRef<MyHandler>(null);
+  const loginRef = useRef<LoginHandler>(null);
 
   const logout = () => setSession({ ...session, loginUser: null });
 
-  const login = ({ id, name }: LoginUser) =>
+  const login = (id: number, name: string) => {
+    if (!id) {
+      alert('ID를 입력하세요!');
+      return loginRef.current?.focus('id');
+    }
+    if (!name) {
+      alert('이름을 입력하세요!');
+      return loginRef.current?.focus('name');
+    }
     setSession({ ...session, loginUser: { id, name } });
+  };
 
   const addCartItem = (name: string, price: number) => {
     const id = Math.max(...session.cart.map(({ id }) => id), 0) + 1;
@@ -67,10 +78,11 @@ function App() {
       {/* <pre>{JSON.stringify(session.loginUser)}</pre> */}
       <My
         session={session}
+        login={login}
         logout={logout}
         addCartItem={addCartItem}
         removeCartItem={removeCartItem}
-        login={login}
+        ref={loginRef}
       />
       <div className='card'>
         <button
