@@ -50,9 +50,26 @@ function App() {
     setSession({ ...session, loginUser: { id, name } });
   };
 
-  const addCartItem = (name: string, price: number) => {
-    const id = Math.max(...session.cart.map(({ id }) => id), 0) + 1;
-    setSession({ ...session, cart: [...session.cart, { id, name, price }] });
+  // const addCartItem = (name: string, price: number) => {
+  //   const id = Math.max(...session.cart.map(({ id }) => id), 0) + 1;
+  //   setSession({ ...session, cart: [...session.cart, { id, name, price }] });
+  // };
+
+  const saveCartItem = (cartItem: CartItem) => {
+    const isAdding = !cartItem.id;
+    if (isAdding) {
+      cartItem.id = Math.max(...session.cart.map(({ id }) => id)) + 1;
+      setSession({ ...session, cart: [...session.cart, cartItem] });
+    } else {
+      setSession({
+        ...session,
+        cart: [
+          ...session.cart.map((item) =>
+            item.id === cartItem.id ? cartItem : item
+          ),
+        ],
+      });
+    }
   };
 
   const removeCartItem = (itemId: number) =>
@@ -80,7 +97,8 @@ function App() {
         session={session}
         login={login}
         logout={logout}
-        addCartItem={addCartItem}
+        // addCartItem={addCartItem}
+        saveCartItem={saveCartItem}
         removeCartItem={removeCartItem}
         ref={loginRef}
       />

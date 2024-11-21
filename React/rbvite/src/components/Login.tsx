@@ -52,14 +52,12 @@ const Login = forwardRef(
           type='number'
           classNames='mb-2 border-spacing-6 border border-blue-300'
           ref={idRef}
-          // onChange={changeId} // LableInput 컴포넌트에 변화가 일어날 때
         />
         <LabelInput
           label='Name'
           type='text'
           classNames='mb-2 border-spacing-6 border border-blue-300'
           ref={nameRef}
-          // onChange={changeName}
         />
         <Button type='submit' className='btn-success float-end mt-3'>
           Sign in

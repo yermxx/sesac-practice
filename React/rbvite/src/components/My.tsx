@@ -1,53 +1,37 @@
-import { Session } from '../App';
+import { type CartItem, Session } from '../App';
 import Profile from './Profile';
 import Login, { type LoginHandler } from './Login';
 import Button from './atoms/Button';
 import { FaPlus, FaTrashCan } from 'react-icons/fa6';
-import { FormEvent, ForwardedRef, forwardRef, useRef, useState } from 'react';
-import Input from './atoms/Input';
-import { TbShoppingCartOff, TbShoppingCartPlus } from 'react-icons/tb';
+import { ForwardedRef, forwardRef, useRef, useState } from 'react';
+import { RiEmotionSadLine } from 'react-icons/ri';
+import CartItemEditor from './CartItemEditor';
 
 type Props = {
   session: Session;
   logout: () => void;
   login: (id: number, name: string) => void;
   removeCartItem: (id: number) => void;
-  addCartItem: (name: string, price: number) => void;
+  // addCartItem: (name: string, price: number) => void;
+  saveCartItem: (cartItem: CartItem) => void;
 };
 
 const My = forwardRef(
   (
-    { session, logout, login, addCartItem, removeCartItem }: Props,
+    { session, logout, login, saveCartItem, removeCartItem }: Props,
     ref: ForwardedRef<LoginHandler>
   ) => {
     const [isEditing, setIsEditing] = useState(false);
+    const [cartItem, setCartItem] = useState<CartItem | null>(null);
     // const { id, name } = session.loginUser || { id: 0, name: '' };
 
     const logoutButtonRef = useRef<HTMLButtonElement>(null);
-    const nameRef = useRef<HTMLInputElement>(null);
-    const priceRef = useRef<HTMLInputElement>(null);
 
     const toggleEditing = () => setIsEditing((pre) => !pre);
 
-    const saveItem = (e: FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      const name = nameRef.current?.value;
-      const price = priceRef.current?.value;
-
-      if (!name) {
-        alert('상품명을 입력하세요!');
-        return nameRef.current?.focus();
-      } else if (!price) {
-        alert('상품 가격을 입력하세요!');
-        return priceRef.current?.focus();
-      }
-
-      addCartItem(name, +price);
-
-      // save한 뒤 input 초기화
-      nameRef.current.value = '';
-      priceRef.current.value = '';
-      nameRef.current?.focus();
+    const setItem = (item: CartItem) => {
+      toggleEditing();
+      setCartItem(item);
     };
 
     return (
@@ -73,39 +57,37 @@ const My = forwardRef(
                 <span className='col-span-2 whitespace-pre font-mono'>
                   * {name.padEnd(8)}: <small>{price.toLocaleString()}원</small>
                 </span>
-                <button
-                  onClick={() => removeCartItem(id)}
-                  className='mx-5 ml-auto'
-                >
-                  <FaTrashCan />
-                </button>
+                <div className='grow-1 flex'>
+                  <Button
+                    onClick={() => setItem({ id, name, price })}
+                    className='mx-5 ml-auto'
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    onClick={() => removeCartItem(id)}
+                    className='mx-5 ml-auto'
+                  >
+                    <FaTrashCan />
+                  </Button>
+                </div>
               </li>
             ))
           ) : (
-            <li className='text-slate-500'>There is no items.</li>
+            <li className='text-slate-500'>
+              <div className='flex items-center justify-center'>
+                There is no items..
+                <RiEmotionSadLine />
+              </div>
+            </li>
           )}
           <li className='mt-3 text-center'>
             {isEditing ? (
-              // data를 받는 부분은 form
-              <form onSubmit={saveItem} className='mt-3 flex gap-3'>
-                <Input
-                  ref={nameRef}
-                  type='text'
-                  placeholder='item name...'
-                  className='mx-2 border'
-                />
-                <Input
-                  ref={priceRef}
-                  type='number'
-                  placeholder='item price...'
-                />
-                <Button type='reset' onClick={toggleEditing}>
-                  <TbShoppingCartOff />
-                </Button>
-                <Button type='submit' className='btn-primary'>
-                  <TbShoppingCartPlus />
-                </Button>
-              </form>
+              <CartItemEditor
+                cartItem={cartItem}
+                saveCartItem={saveCartItem}
+                toggleEditing={toggleEditing}
+              />
             ) : (
               // onClick={() => setIsEditing(true)}을 변수로 더 깔끔하게 처리
               <Button onClick={toggleEditing} className='mx-auto'>
