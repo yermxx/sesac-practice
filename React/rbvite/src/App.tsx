@@ -17,7 +17,7 @@ export type LoginUser = {
   name: string;
 };
 
-type CartItem = {
+export type CartItem = {
   id: number;
   name: string;
   price: number;
@@ -39,6 +39,11 @@ function App() {
   const login = ({ id, name }: LoginUser) =>
     setSession({ ...session, loginUser: { id, name } });
 
+  const addCartItem = (name: string, price: number) => {
+    const id = Math.max(...session.cart.map(({ id }) => id), 0) + 1;
+    setSession({ ...session, cart: [...session.cart, { id, name, price }] });
+  };
+
   const removeCartItem = (itemId: number) =>
     setSession({
       ...session,
@@ -49,7 +54,7 @@ function App() {
   const minusCount = () => setCount(count - 1);
 
   return (
-    <div className='m-20 grid place-items-center'>
+    <div className='grid place-items-center'>
       <Hello
         name='Rimi!'
         age={29}
@@ -63,6 +68,7 @@ function App() {
       <My
         session={session}
         logout={logout}
+        addCartItem={addCartItem}
         removeCartItem={removeCartItem}
         login={login}
       />

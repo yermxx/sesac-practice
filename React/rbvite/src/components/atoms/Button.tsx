@@ -5,10 +5,10 @@ type Props = {
   onClick?: () => void;
   className?: string;
   children: ReactNode;
-};
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 export default function Button({
-  type,
+  type = 'button',
   children,
   onClick = () => {},
   className = '',
@@ -17,7 +17,7 @@ export default function Button({
     <button
       type={type}
       onClick={onClick}
-      className={`btn ${className} mb-3 flex items-center justify-center normal-case`}
+      className={`btn flex items-center justify-center normal-case ${className}`}
     >
       {children}
     </button>

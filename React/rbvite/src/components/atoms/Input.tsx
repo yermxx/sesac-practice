@@ -1,4 +1,4 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, forwardRef } from 'react';
 
 type Props = {
   type?: string;
@@ -6,23 +6,22 @@ type Props = {
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
   value?: number | string;
-};
+  className?: string;
+} & React.InputHTMLAttributes<HTMLInputElement>;
 
-export default function Input({
-  type = 'text',
-  id,
-  onChange,
-  placeholder,
-  value,
-}: Props) {
-  return (
-    <input
-      type={type}
-      id={id}
-      onChange={onChange}
-      placeholder={placeholder}
-      value={value}
-      className='ring-1x rounded-md border px-2'
-    />
-  );
-}
+const Input = forwardRef<HTMLInputElement, Props>(
+  ({ type = 'text', className = '', ...props }, ref) => {
+    return (
+      <input
+        ref={ref}
+        type={type}
+        className={`ring-1x rounded-md border px-2 ${className}`}
+        {...props}
+      />
+    );
+  }
+);
+
+Input.displayName = 'Input';
+
+export default Input;
