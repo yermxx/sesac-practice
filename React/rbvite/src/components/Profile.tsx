@@ -1,14 +1,10 @@
 import { ForwardedRef, forwardRef } from 'react';
-import { Session } from '../App';
 import Button from './atoms/Button';
-
-type Props = {
-  session: Session;
-  logout: () => void;
-};
+import { useSession } from '../hooks/session-context';
 
 const Profile = forwardRef(
-  ({ session, logout }: Props, ref: ForwardedRef<HTMLButtonElement>) => {
+  (_: unknown, ref: ForwardedRef<HTMLButtonElement>) => {
+    const { session, logout } = useSession();
     return (
       <div className='mb-2 px-5 py-2'>
         <h3 className='mb-2 text-center text-blue-800'>
