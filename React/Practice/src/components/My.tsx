@@ -2,6 +2,7 @@ import { type LoginUser, type Session } from '../App';
 import Login from './Login';
 import Profile from './Profile';
 import { PiTrashDuotone } from 'react-icons/pi';
+import Button from './ui/Button';
 
 type Props = {
   session: Session;
@@ -27,9 +28,9 @@ export default function My({ session, logout, login, removeCartItem }: Props) {
                 <span>
                   * {name}: <small className='text-gray-500'>{price}원</small>
                 </span>
-                <button onClick={() => removeCartItem(id)}>
+                <Button onClick={() => removeCartItem(id)}>
                   <PiTrashDuotone />
-                </button>
+                </Button>
               </li>
             ))
           ) : (

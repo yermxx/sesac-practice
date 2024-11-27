@@ -1,5 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { LoginUser } from '../App';
+import Input from './ui/Input';
+import Button from './ui/Button';
 
 type Props = {
   login: (user: LoginUser) => void;
@@ -43,13 +45,12 @@ export default function Login({ login }: Props) {
           >
             ID
           </label>
-          <input
+          <Input
             type='number'
             id='loginId'
             onChange={changeId}
             value={id || ''} // id만 적어주면 controlled component가 되어 있어서 0이 기본값이 됨
             placeholder='id ...'
-            className='rounded-md border px-2'
           />
         </div>
         <div className='mb-5 flex flex-col'>
@@ -59,17 +60,16 @@ export default function Login({ login }: Props) {
           >
             Name
           </label>
-          <input
+          <Input
             type='text'
             onChange={changeName}
             value={name}
             placeholder='name ...'
-            className='rounded-md border px-2'
           />
         </div>
-        <button type='submit' className='btn btn-check float-right'>
+        <Button type='submit' className='btn-check float-right'>
           Sign in
-        </button>
+        </Button>
       </form>
     </div>
   );

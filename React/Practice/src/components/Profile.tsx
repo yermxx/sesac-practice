@@ -1,4 +1,5 @@
 import { Session } from '../App';
+import Button from './ui/Button';
 
 type Props = {
   session: Session;
@@ -11,9 +12,9 @@ export default function Profile({ session, logout }: Props) {
       <h3 className='rounded-md border p-1'>
         {session.loginUser?.name} Logined
       </h3>
-      <button onClick={logout} className='btn btn-success'>
+      <Button onClick={logout} className='btn-success'>
         Logout
-      </button>
+      </Button>
     </div>
   );
 }
