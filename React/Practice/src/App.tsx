@@ -39,11 +39,23 @@ export default function App() {
     setSession({ ...session, loginUser: null });
   };
 
+  const removeCartItem = (itemId: number) => {
+    setSession({
+      ...session,
+      cart: session.cart.filter(({ id }) => id !== itemId),
+    });
+  };
+
   return (
     <>
       <div>
         <Hello name={'Lee'} age={33} />
-        <My session={session} logout={logout} login={login} />
+        <My
+          session={session}
+          logout={logout}
+          login={login}
+          removeCartItem={removeCartItem}
+        />
       </div>
       <div className='card'>
         <button
