@@ -1,21 +1,21 @@
-import { Session } from '../App';
+import { type LoginUser, type Session } from '../App';
+import Login from './Login';
+import Profile from './Profile';
 
 type Props = {
   session: Session;
   logout: () => void;
+  login: (user: LoginUser) => void;
 };
 
-export default function My({ session, logout }: Props) {
+export default function My({ session, logout, login }: Props) {
   return (
     <>
-      <div className='mb-3 flex items-center justify-center gap-3 p-4'>
-        <h3 className='rounded-md border p-1'>
-          {session.loginUser?.name} Logined
-        </h3>
-        <button onClick={logout} className='btn btn-success'>
-          Logout
-        </button>
-      </div>
+      {session.loginUser ? (
+        <Profile session={session} logout={logout} />
+      ) : (
+        <Login login={login} />
+      )}
 
       <div className='flex items-center justify-center'>
         <ul className='w-1/3 border p-4'>

@@ -12,7 +12,7 @@ const SampleSession = {
   ],
 };
 
-type LoginUser = {
+export type LoginUser = {
   id: number;
   name: string;
 };
@@ -32,6 +32,9 @@ export default function App() {
   const [count, setCount] = useState(0);
   const [session, setSession] = useState<Session>(SampleSession);
 
+  const login = ({ id, name }: LoginUser) => {
+    setSession({ ...session, loginUser: { id, name } });
+  };
   const logout = () => {
     setSession({ ...session, loginUser: null });
   };
@@ -40,7 +43,7 @@ export default function App() {
     <>
       <div>
         <Hello name={'Lee'} age={33} />
-        <My session={session} logout={logout} />
+        <My session={session} logout={logout} login={login} />
       </div>
       <div className='card'>
         <button
