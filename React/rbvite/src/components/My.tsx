@@ -16,6 +16,7 @@ import {
 } from 'react-icons/ti';
 import { CartItem, useSession } from '../hooks/session-context';
 import { useToggle } from '../hooks/useToggle';
+import { useInterval, useTimeout } from '../hooks/timer-hooks';
 
 export default function My() {
   const { session, saveCartItem, removeCartItem } = useSession();
@@ -24,9 +25,6 @@ export default function My() {
   const logoutButtonRef = useRef<HTMLButtonElement>(null);
   const videoPlayerRef = useRef<VideoPlayerHandler>(null); // useImperativeHandle를 사용할 때는 ref의 타입을 주입해야 한다 !!
 
-  // useToggle 사용
-  // const [isEditing, setIsEditing] = useState(false);
-  // const toggleEditing = () => setIsEditing((pre) => !pre);
   const [isEditing, toggleEditing] = useToggle();
 
   const setItem = (item: CartItem) => {
@@ -39,6 +37,10 @@ export default function My() {
     const init = setInterval(() => console.log(), 1000);
     return () => clearInterval(init);
   }, []);
+
+  // useTimer Test
+  useTimeout(() => console.log('X'), 1000);
+  useInterval((name) => console.log(`Hello, ${name}!!!`), 1000, ['Hong']);
 
   return (
     <>
