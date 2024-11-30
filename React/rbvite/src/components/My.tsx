@@ -2,7 +2,7 @@ import Profile from './Profile';
 import Login from './Login';
 import Button from './atoms/Button';
 import { FaPlus, FaTrashCan } from 'react-icons/fa6';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { RiEmotionSadLine } from 'react-icons/ri';
 import CartItemEditor from './CartItemEditor';
 import VideoPlayer, { VideoPlayerHandler } from './VideoPlayer';
@@ -15,21 +15,30 @@ import {
   TiVolumeUp,
 } from 'react-icons/ti';
 import { CartItem, useSession } from '../hooks/session-context';
+import { useToggle } from '../hooks/useToggle';
 
 export default function My() {
   const { session, saveCartItem, removeCartItem } = useSession();
-  const [isEditing, setIsEditing] = useState(false);
   const [cartItem, setCartItem] = useState<CartItem | null>(null);
 
   const logoutButtonRef = useRef<HTMLButtonElement>(null);
   const videoPlayerRef = useRef<VideoPlayerHandler>(null); // useImperativeHandle를 사용할 때는 ref의 타입을 주입해야 한다 !!
 
-  const toggleEditing = () => setIsEditing((pre) => !pre);
+  // useToggle 사용
+  // const [isEditing, setIsEditing] = useState(false);
+  // const toggleEditing = () => setIsEditing((pre) => !pre);
+  const [isEditing, toggleEditing] = useToggle();
 
   const setItem = (item: CartItem) => {
     toggleEditing();
     setCartItem(item);
   };
+
+  // 한 번만 실행되는지 Test
+  useEffect(() => {
+    const init = setInterval(() => console.log(), 1000);
+    return () => clearInterval(init);
+  }, []);
 
   return (
     <>
