@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import {
   createContext,
   PropsWithChildren,
@@ -37,5 +38,22 @@ export const CounterProvider = ({ children }: PropsWithChildren) => {
 };
 
 // 두 개의 컴포넌트를 export 해줄 수 없으니 한 줄만 eslint 규칙을 일시적으로 비활성화
-// eslint-disable-next-line react-refresh/only-export-components
+// useCounter : 전역에서 사용
 export const useCounter = () => useContext(CounterContext);
+
+export const useCount = () => {
+  const [count, setCount] = useState(0);
+  const plusCount = () => setCount((count) => count + 1);
+  const minusCount = () => setCount((count) => count - 1);
+
+  return [count, plusCount, minusCount];
+};
+
+// 기본값 지정
+// export const useCount = (defVal = 0) => {
+//   const [count, setCount] = useState(defVal);
+//   const plusCount = (flag = 1) => setCount((pre) => pre + flag);
+//   const minusCount = (flag = 1) => setCount((pre) => pre - flag);
+
+//   return [count, plusCount, minusCount];
+// };
