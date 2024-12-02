@@ -28,7 +28,14 @@ export const CounterProvider = ({ children }: PropsWithChildren) => {
       return newer;
     });
   }, []);
-  const minusCount = () => setCount(count - 1);
+
+  // const minusCount = () => setCount(count - 1);
+  const minusCount = useCallback(() => {
+    setCount((pre) => {
+      const newer = pre - 1;
+      return newer;
+    });
+  }, []);
 
   return (
     <CounterContext.Provider value={{ count, plusCount, minusCount }}>
@@ -41,19 +48,19 @@ export const CounterProvider = ({ children }: PropsWithChildren) => {
 // useCounter : 전역에서 사용
 export const useCounter = () => useContext(CounterContext);
 
-export const useCount = () => {
-  const [count, setCount] = useState(0);
-  const plusCount = () => setCount((count) => count + 1);
-  const minusCount = () => setCount((count) => count - 1);
-
-  return [count, plusCount, minusCount];
-};
-
-// 기본값 지정
-// export const useCount = (defVal = 0) => {
-//   const [count, setCount] = useState(defVal);
-//   const plusCount = (flag = 1) => setCount((pre) => pre + flag);
-//   const minusCount = (flag = 1) => setCount((pre) => pre - flag);
+// export const useCount = () => {
+//   const [count, setCount] = useState(0);
+//   const plusCount = () => setCount((count) => count + 1);
+//   const minusCount = () => setCount((count) => count - 1);
 
 //   return [count, plusCount, minusCount];
 // };
+
+// 기본값 지정
+export const useCount = (defVal = 0) => {
+  const [count, setCount] = useState(defVal);
+  const plusCount = (flag = 1) => setCount((pre) => pre + flag);
+  const minusCount = (flag = 1) => setCount((pre) => pre - flag);
+
+  return [count, plusCount, minusCount];
+};

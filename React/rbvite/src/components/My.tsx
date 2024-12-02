@@ -16,7 +16,6 @@ import {
 } from 'react-icons/ti';
 import { CartItem, useSession } from '../hooks/session-context';
 import { useToggle } from '../hooks/useToggle';
-import { useInterval, useTimeout } from '../hooks/timer-hooks';
 
 export default function My() {
   const { session, saveCartItem, removeCartItem } = useSession();
@@ -37,10 +36,6 @@ export default function My() {
     const init = setInterval(() => console.log(), 1000);
     return () => clearInterval(init);
   }, []);
-
-  // useTimer Test
-  useTimeout(() => console.log('X'), 1000);
-  useInterval((name) => console.log(`Hello, ${name}!!!`), 1000, ['Hong']);
 
   return (
     <>
@@ -93,7 +88,7 @@ export default function My() {
             <CartItemEditor
               cartItem={cartItem}
               saveCartItem={saveCartItem}
-              toggleEditing={toggleEditing}
+              toggleEditing={() => toggleEditing(true)}
             />
           ) : (
             // onClick={() => setIsEditing(true)}을 변수로 더 깔끔하게 처리

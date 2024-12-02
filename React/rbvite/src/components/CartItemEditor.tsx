@@ -1,8 +1,8 @@
-import { FormEvent, useEffect, useRef } from 'react';
-import { type CartItem } from '../App';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 import Input from './atoms/Input';
 import Button from './atoms/Button';
 import { TbShoppingCartOff, TbShoppingCartPlus } from 'react-icons/tb';
+import { type CartItem } from '../hooks/session-context';
 
 type Props = {
   cartItem: CartItem | null;
@@ -18,6 +18,15 @@ export default function CartItemEditor({
   const idRef = useRef<HTMLInputElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
   const priceRef = useRef<HTMLInputElement>(null);
+
+  const [hasDirty, setDirty] = useState(false);
+
+  const checkDirty = () => {
+    setDirty(
+      nameRef.current?.value !== cartItem?.name ||
+        priceRef.current?.value !== cartItem?.price
+    );
+  };
 
   const submitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -64,14 +73,19 @@ export default function CartItemEditor({
           type='text'
           placeholder='item name...'
           className='mx-2 border'
+          onChange={checkDirty}
         />
         <Input ref={priceRef} type='number' placeholder='item price...' />
-        <Button type='reset' onClick={toggleEditing}>
-          <TbShoppingCartOff />
-        </Button>
-        <Button type='submit' className='btn-primary'>
-          <TbShoppingCartPlus />
-        </Button>
+        {hasDirty && (
+          <div>
+            <Button type='reset' onClick={toggleEditing}>
+              <TbShoppingCartOff />
+            </Button>
+            <Button type='submit' className='btn-primary'>
+              <TbShoppingCartPlus />
+            </Button>
+          </div>
+        )}
       </form>
     </>
   );

@@ -1,8 +1,15 @@
-import { FormEvent, useRef, useImperativeHandle, useEffect } from 'react';
+import {
+  FormEvent,
+  useRef,
+  useImperativeHandle,
+  useEffect,
+  useLayoutEffect,
+} from 'react';
 import Button from './atoms/Button';
 import LabelInput from './molecules/LabelInput';
 import { useSession } from '../hooks/session-context';
 import { useCounter } from '../hooks/counter-hook';
+import { useInterval, useTimeout } from '../hooks/timer-hooks';
 
 export type LoginHandler = {
   focus: (prop: string) => void;
@@ -14,6 +21,28 @@ export default function Login() {
 
   const idRef = useRef<HTMLInputElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    plusCount();
+
+    return () => minusCount();
+  }, [plusCount, minusCount]);
+
+  // useTimeout((x: number, y: number) => console.log('xxx', x, y), 500, 123, 456);
+  // useInterval(() => console.log('interval!!'), 1000);
+
+  console.log('*****', new Date().getSeconds());
+  useInterval(plusCount, 1500);
+  // const f = useCallback(() => { console.log('once?'); }, []);
+
+  const f = () => {
+    console.log('once?');
+  };
+  useTimeout(f, 1000);
+
+  useLayoutEffect(() => {
+    // console.log('useLayoutEffect!!');
+  }, []);
 
   const handler: LoginHandler = {
     focus(prop) {
@@ -29,12 +58,6 @@ export default function Login() {
     const name = nameRef.current?.value ?? '';
     login(+id, name);
   };
-
-  useEffect(() => {
-    plusCount();
-
-    return minusCount;
-  }, [plusCount, minusCount]);
 
   return (
     <form onSubmit={submitHandler} className='mb-6 border p-4'>
