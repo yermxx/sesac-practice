@@ -17,32 +17,10 @@ export type LoginHandler = {
 
 export default function Login() {
   const { login, loginRef } = useSession();
-  const { plusCount, minusCount } = useCounter();
+  const { count, plusCount, minusCount } = useCounter();
 
   const idRef = useRef<HTMLInputElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    plusCount();
-
-    return () => minusCount();
-  }, [plusCount, minusCount]);
-
-  // useTimeout((x: number, y: number) => console.log('xxx', x, y), 500, 123, 456);
-  // useInterval(() => console.log('interval!!'), 1000);
-
-  console.log('*****', new Date().getSeconds());
-  useInterval(plusCount, 1500);
-  // const f = useCallback(() => { console.log('once?'); }, []);
-
-  const f = () => {
-    console.log('once?');
-  };
-  useTimeout(f, 1000);
-
-  useLayoutEffect(() => {
-    // console.log('useLayoutEffect!!');
-  }, []);
 
   const handler: LoginHandler = {
     focus(prop) {
@@ -52,15 +30,51 @@ export default function Login() {
   };
   useImperativeHandle(loginRef, () => handler);
 
-  const submitHandler = (e: FormEvent<HTMLFormElement>) => {
+  const signIn = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const id = idRef.current?.value ?? 0;
     const name = nameRef.current?.value ?? '';
     login(+id, name);
   };
 
+  // useEffect(() => {
+  //   const intl = setTimeout((x) => console.log('xxx', x), 500, 123);
+
+  //   return () => clearTimeout(intl);
+  // }, []);
+  // useTimeout((x: number, y: number) => console.log('xxx', x, y), 500, 123, 456);
+
+  // useInterval(() => console.log('interval!!'), 1000);
+  console.log('*****', new Date().getSeconds());
+  useInterval(plusCount, 1500);
+  // const f = useCallback(() => { console.log('once?'); }, []);
+  const f = () => {
+    console.log('once?');
+  };
+  useTimeout(f, 1000);
+
+  useLayoutEffect(() => {
+    // console.log('useLayoutEffect!!');
+  }, []);
+
+  useEffect(() => {
+    plusCount();
+    // console.log('effect', count);
+
+    return () => {
+      // console.log('xx');
+      minusCount();
+    };
+  }, [count, plusCount, minusCount]); // 1
+
+  // useEffect(() => {
+  //   console.log('useeffffffff22');
+
+  //   return minusCount;
+  // }, [minusCount]);
+
   return (
-    <form onSubmit={submitHandler} className='mb-6 border p-4'>
+    <form onSubmit={signIn} className='mb-6 border p-4'>
       <LabelInput
         label='ID'
         type='number'

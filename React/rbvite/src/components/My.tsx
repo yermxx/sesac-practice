@@ -1,10 +1,9 @@
 import Profile from './Profile';
 import Login from './Login';
 import Button from './atoms/Button';
-import { FaPlus, FaTrashCan } from 'react-icons/fa6';
-import { useEffect, useRef, useState } from 'react';
+import { FaPlus } from 'react-icons/fa6';
+import { useEffect, useRef } from 'react';
 import { RiEmotionSadLine } from 'react-icons/ri';
-import CartItemEditor from './CartItemEditor';
 import VideoPlayer, { VideoPlayerHandler } from './VideoPlayer';
 import {
   TiMediaPauseOutline,
@@ -14,34 +13,66 @@ import {
   TiVolumeMute,
   TiVolumeUp,
 } from 'react-icons/ti';
-import { CartItem, useSession } from '../hooks/session-context';
+import { useSession } from '../hooks/session-context';
 import { useToggle } from '../hooks/useToggle';
+import { useTimeout } from '../hooks/timer-hooks';
+import Item from './Item';
 
 export default function My() {
-  const { session, saveCartItem, removeCartItem } = useSession();
-  const [cartItem, setCartItem] = useState<CartItem | null>(null);
+  const { session, toggleReloadSession } = useSession();
 
   const logoutButtonRef = useRef<HTMLButtonElement>(null);
   const videoPlayerRef = useRef<VideoPlayerHandler>(null); // useImperativeHandle를 사용할 때는 ref의 타입을 주입해야 한다 !!
 
-  const [isEditing, toggleEditing] = useToggle();
+  const [isAdding, toggleAdding] = useToggle(true);
 
-  const setItem = (item: CartItem) => {
-    toggleEditing();
-    setCartItem(item);
-  };
+  // const primitive = 123;
 
-  // 한 번만 실행되는지 Test
+  // useEffect(() => {
+  //   console.log('*******11', primitive, isAdding);
+
+  //   return () => console.log('unmount11!!');
+  // }, [primitive, isAdding]);
+
+  let xxx = 0;
+  // useEffect(() => {
+  //   console.log('*******22');
+  //   // alert('login plz...');
+
+  //   return () => console.log('unmount22!!');
+  // }, []);
+
+  useTimeout(() => {
+    xxx++;
+  }, 1000);
+
   useEffect(() => {
-    const init = setInterval(() => console.log(), 1000);
-    return () => clearInterval(init);
+    // const abortController = new AbortController();
+    // const { signal } = abortController;
+    // (async function () {
+    //   try {
+    //     const data = await fetch('/data/sample.json', { signal }).then((res) =>
+    //       res.json()
+    //     );
+    //     console.log('My.data>>', data);
+    //   } catch (error) {
+    //     console.error('Error>>', error);
+    //   }
+    // })();
+    // fetch('/data/sample.json', { signal })
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     console.log('data>>', data);
+    //   })
+    //   .catch((error) => console.error('Error>>', error));
+    // return () => abortController.abort('Clean-up in My!');
   }, []);
 
   return (
     <>
       {session.loginUser?.id ? (
         <div className='flex'>
-          <Profile ref={logoutButtonRef} />
+          <Profile ref={logoutButtonRef} xxx={xxx} />
           <Button
             onClick={() => logoutButtonRef.current?.focus()}
             className='mb-4'
@@ -52,27 +83,11 @@ export default function My() {
       ) : (
         <Login />
       )}
-      <ul className='mb-6 w-auto space-y-3 border p-4'>
+      <ul className='my-3 mb-6 w-auto space-y-3 border p-4'>
         {session.cart?.length ? (
-          session.cart.map(({ id, name, price }) => (
-            <li key={id} className='grid grid-cols-3 justify-around'>
-              <span className='col-span-2 whitespace-pre font-mono'>
-                * {name.padEnd(8)}: <small>{price.toLocaleString()}원</small>
-              </span>
-              <div className='grow-1 flex'>
-                <Button
-                  onClick={() => setItem({ id, name, price })}
-                  className='mx-5 ml-auto'
-                >
-                  Edit
-                </Button>
-                <Button
-                  onClick={() => removeCartItem(id)}
-                  className='mx-5 ml-auto'
-                >
-                  <FaTrashCan />
-                </Button>
-              </div>
+          session.cart.map((item) => (
+            <li key={item.id}>
+              <Item item={item} />
             </li>
           ))
         ) : (
@@ -84,20 +99,22 @@ export default function My() {
           </li>
         )}
         <li className='mt-3 text-center'>
-          {isEditing ? (
-            <CartItemEditor
-              cartItem={cartItem}
-              saveCartItem={saveCartItem}
-              toggleEditing={() => toggleEditing(true)}
+          {isAdding ? (
+            <Item
+              item={{ id: 0, name: '', price: 0 }}
+              toggleAdding={() => toggleAdding()}
             />
           ) : (
             // onClick={() => setIsEditing(true)}을 변수로 더 깔끔하게 처리
-            <Button onClick={toggleEditing} className='mx-auto'>
+            <Button onClick={toggleAdding} className='mx-auto'>
               <FaPlus /> Add Item
             </Button>
           )}
         </li>
       </ul>
+      <Button onClick={toggleReloadSession} className='mb-6'>
+        Reload Session
+      </Button>
 
       <div className='mx-auto mb-6 w-96 border p-5'>
         <VideoPlayer

@@ -1,18 +1,20 @@
 import { ForwardedRef, forwardRef } from 'react';
-import Button from './atoms/Button';
 import { useSession } from '../hooks/session-context';
 
 const Profile = forwardRef(
-  (_: unknown, ref: ForwardedRef<HTMLButtonElement>) => {
+  ({ xxx }: { xxx: number }, ref: ForwardedRef<HTMLButtonElement>) => {
     const { session, logout } = useSession();
+    console.log('xxx>>>', xxx);
     return (
-      <div className='mb-2 px-5 py-2'>
-        <h3 className='mb-2 text-center text-blue-800'>
-          {session.loginUser?.name} Logined
-        </h3>
-        <Button onClick={logout} ref={ref} className='btn btn-success mb-6'>
-          HongSignOut
-        </Button>
+      <div className='mb-3 px-5 py-2'>
+        <button
+          onClick={logout}
+          ref={ref}
+          className='btn btn-primary normal-case'
+        >
+          {session.loginUser?.name} Sign Out {xxx}
+        </button>
+        {/* <Button onClick={logout} text='SignOut' /> */}
       </div>
     );
   }
