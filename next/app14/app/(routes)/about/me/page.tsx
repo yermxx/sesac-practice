@@ -6,14 +6,13 @@ export default function Me() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const urlSearchParams = new URLSearchParams(searchParams.toString());
 
   const goBack = () => router.back();
-
   const goHello = () => router.push('/hello', { scroll: false });
 
   // 보통은 custom-hook을 만들어서 사용
   const changeSearchParams = (x: string) => {
+    const urlSearchParams = new URLSearchParams(searchParams.toString());
     urlSearchParams.set('xxx', x);
     // console.log('urlSearchParams', urlSearchParams.toString());
     router.push(`${pathname}?${urlSearchParams.toString()}`); // router.push를 해야지만 url창에 반영됨
