@@ -75,4 +75,25 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+  a {
+    font-weight: 500;
+    color: theme('colors.blue.400');
+    text-decoration: inherit;
+  }
+  a:hover {
+    color: inherit;
+  }
+
+  nav a:hover {
+    text-decoration: underline;
+  }
+  nav a.active:hover {
+    color: white;
+    text-decoration: none;
+    cursor: default;
+  }
+
+  input.inp {
+    @apply w-full rounded-md border px-2 py-1 focus:border-blue-500 focus:outline-none focus:ring-0;
+  }
 }
