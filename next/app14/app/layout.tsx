@@ -33,8 +33,8 @@ export default function RootLayout({
         <header>
           <Nav />
         </header>
-        <main className='flex flex-col items-center'>{children}</main>
-        <footer>kc4</footer>
+        <main className='flex flex-col items-center mb-9'>{children}</main>
+        <footer className='text-center text-xs'>＠kc4</footer>
       </body>
     </html>
   );
