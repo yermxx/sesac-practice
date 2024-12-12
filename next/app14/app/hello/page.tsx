@@ -10,7 +10,7 @@ export default function Hello({
     <>
       <h1>Hello</h1>
       <Link href='/' scroll={false} type='button'>
-        Dashboard
+        Dashboard : {q}
       </Link>
     </>
   );
